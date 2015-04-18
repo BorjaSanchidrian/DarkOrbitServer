@@ -1,0 +1,324 @@
+/*
+ * Ideas que se me ocurren en el momento que pienso que podr�an funcionar mejor, o por lo menos tener el c�digo mas ordenado pero que primero quiero
+ * acabar el emulador antes de 'optimizarlo'
+ */
+
+
+15 octubre 2014
+
+	->23:15
+
+	Los paquetes relacionados con 'maxHealth' (por ejemplo) son parametros de la base 'server_1_players'. En una futura actualizaci�n creo que ser�a
+	mejor modificar las tablas, php y emulador para que coja los valores de la tabla 'ships', por tanto crear la clase Ships.java y seguir el mismo 
+	esquema que con la clase Accounts, Settings, ...
+	
+	
+	->23:30
+	
+	Lo mismo con los recursos, original la idea de una tabla para los recursos con la estructura:
+	
+		playerID | prometium | endurium | terbium | --- |
+		1027		30			40			15		--
+	
+	Con una clase en el emulador para ello. Habr�a que actualizar los recursos cada vez que se coje una piedrita o se vende #ajamConCuidadin
+	
+		
+	->1:45 - 4:15
+	
+	Analizando paquetes:
+	
+		0|I|playerID|username|shipID|maxSpeed|shield|maxShield|health|maxHealth|cargo|maxCargo|user.x|usery|mapId|factionId|clanId|shipAmmo|shipRockets|equipment(?)|premium|exp|honor|level|credits|uridium|jackpot|rank|clanTag|ggates|0|cloaked"
+		
+		1|6560|1200|3920|1200
+		0|1|userID|nexX|newY|oldX|oldY
+		
+		0|A|BS|100 -> potenciador exp 100%
+		0|A|BS|0/0/0/0/0/0/0/0/0/0 -> cada uno un pote
+		
+		0|C|4|70||||8900|2800|
+		0|C|objectID(?)|shipId||||x|y -> Spawmea esa nave
+		
+		//Carga la municion -> 0|B|x1|x2|x3|x4|sab|rsb
+        0|B|" + user.x1Ammo + "|" + user.x2Ammo + "|" + user.x3Ammo + "|" + user.x4Ammo + "|0
+        
+        //Carga misiles y minas -> 0|3|m1|m2|m3|m4|PLD-8|DRC|Wiz|minas|SMB|ISH|PEM|MinaPem|mina2|mina3
+       	0|3|1000|1000|1000|0|0|0|0|0|100|100|0|0|0|0
+		
+		0|C|USERID|SHIPID|EXPANSION|CLANTAG|USERNAME|X|Y|FactionId|CLANID|RANK|WARNICON|CLANDIPLOMACY|GALAXYGATES|NPC|CLOACK
+		
+		Example:
+		0|C|13|10|1|ADM|MagoPis1|1800|1800|2|1|21|1|0|7|0|0
+		
+		
+		mismo clanID -> nombre verde
+		clanDiplomacy {
+			1 => "nombre de clan en verde"
+			2 => "PNA"
+			3 => "WAR"
+		}
+		
+		
+		0|N|13|10|30|200|100|150|0 -> Respuesta al paquete SEL|playerID
+		0|N|TargetID|TargetShipID|shd|getMaxShield()|hp|maxHp|shieldSkill
+		
+		0|n|ISH|1
+		0|n|SMB/ISH/EMP|playerID -> pos eso
+		remove all npc's you've spawned with "0|R|ID"
+
+		0|A|HPT/SHD/v|hp|shiphp -> Cambia hp, escudo, velocidad
+		0|A|v|vel
+		
+		0|A|HL|0|playerID|SHD|player.shield|recarga(int) -> recarga el escudo
+		SHD/HPT
+		
+		0|LM|ST|JPE|10000|10000
+		0|LM|ST|JPE|Premio|cantidadFinal -> JPE/CRE/URI Mensaje de recompensa
+		
+		0|p|5|1|11|3400|2400|1|3
+		0|p|portalId|graficoId (ver game.xml)|x|y|visible|empresa -> crea portal
+		
+		0|U|99|1 -> activa portalId=1
+		
+		0|Y|" + user.userID + "|" + target.userID + "|L|" + target.user.hp + "|" + target.user.shd + "|" + dmg + "|100|1
+
+		L = LASER, R= ROCKET, H= HEALTH
+		
+		0|LAB|UPD|INFO|LASER|14|5563|ROCKET|13|0 -> actualiza con materias primas 14 = seprom 13= promerium , supongo que seguira el patron
+					   SHIELD
+					
+		0|A|JV|512 -> pone 512 bonos de tp
+		0|A|BK|14 -> lo mismo con llaves pirata
+		
+		0|RL|R|amarillos|rojos|azules -> carga los misles lanza misiles
+				7		8		9
+		0|RL|S|2|9|5 -> lanza misiles con los tipo 9 (7.8.9) y 5 misiles cargados
+		
+		
+		0|E|prometium|endurium|terbium|xenomit|prometid|duranium|promerium|seprom|paladio
+		0|E|0|0|0|0|0|0|0|0|0 -> control bodega -> vacia
+		
+		
+		
+		0|A|ITM|repVants(1,2)|0|cpuSalto(1,2)|compraMunicion (1-6)|repBot(1,2,3,4)|tradeDrone|SMBCPU|ISHCPU|0|0|chipAcierta(1,2)|autoMisiles|cpuCamu(1,2)|autoLanzamisiles|autoBuyRockets|cpuSaltoAvanzada
+		0|A|ITM|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0 -> HAY QUE INICIARLIZAR LOS EXTRAS PARA SOLUCIONAR EL PROBLEMA DEL MAPA (VER TODOS MAPAS)
+		
+		0|TX|S|1|1|0|1|2|0|1|3|0|1|4|0|1|5 -> Activa tecnofabrica Energy leech - chain impulse - precision targeter - backup shields - battle repair bot
+		0|TX|S|active|ammount|0|active|ammount|0|activ....
+		
+		0|s|0|1|redStation|1|1500|1000|1000 -> crea estacion bonita :D
+		
+		0|A|CPU|J|2|1|6 -> carga 6 saltos CPU JP-2
+		
+		0|A|CPU|R|1 -> activa / desactiva cpu auto misiles (1,0)
+		
+		0|A|CLD|ROK|time -> cooldown de misiles
+		ROK/RSB/ISH/SMB/MIN(minas)/
+		
+		0|v|1|2|H|rocketType -> lanza un misil
+		H/
+		
+		0|n|w|(1-5) -> enemy warning
+		
+		0|n|INV|playerID|bool -> hace al usuario invisible
+		
+		0|n|e|playerID|0/8 -> Si no quiere ver drones
+		
+		Capture the beacon {
+			0|n|ctb|m|bool -> activa/ CTB
+			0|n|ctb|s|1|2|3 -> update score (mmo, eic, vru)
+		}
+		
+		
+		S|CFG|2 -> esta en config 1 y quiere cambiar a la dos
+		0|A|CC|1 -> packete cambia de config a la 1
+		
+		0|A|RS|bool -> pone el robot azul o no. Ejecutar antes que el de abajo
+		
+		0|D|1200|700|0|1|0|0|0|0 -> pone zona de no ataques (mensaje al menos)
+		0|D|playerX|playerY|zonaNoAtaques(bool)|repBot(bool)|trade(bool)|radiacion(bool)|0 (IDK)|instantRepair(int)
+		
+		0|n|t|" + user.userID + "|" + user.title -> titulo -> translationsSpacemap.php | t-pt
+		
+		0|PET|S|145124|10|1|2|1|3|1|4|1|5|1|Borja
+		
+		
+		0|n|MAL|SET|userID
+		0|n|fx|start|SABOTEUR_DEBUFF|userID
+		0|n|MAL|REM|userID
+		0|n|fx|end|SABOTEUR_DEBUFF|userID
+		efectos
+		
+		0|c|id|type|x|y
+		{
+			0 -> carga no libre
+			1 -> carga libre
+			2 -> bonus box
+			3 -> huevo pascua
+			5-6-7-8.. -> objectos raros
+			21 -> botin verde
+		}
+		
+		0|A|JCPU|I|-1|1;5;20;24;|850|2;3;4;6;7;8;9;10;11;12;|375|17;19;18;21;23;22;|100|13;14;15;27;26;|175|29;|125|25;|225|16; -> cpu init
+		
+		0|A|JCPU|C|3|100|1 -> selecciona el mapa de salto
+		0|A|JCPU|C|mapID|uridium|bool (si permitido o no)
+			
+		
+18 octubre 2014
+
+	->2:23
+	
+	Se deberia cargar los datos de la cuenta que intente conectarse al momento, en vez de cargar todas absurdamente. De esa forma no habra que reiniciar
+	el emulador a cada cambio. Hacer cuando haya un logout, o comprobante de que te "reconectas" -> DONE!
+	
+20 octubre 2014
+	
+	->1:08
+	
+	Rehacer la funcion que calcula los puntos de rango, desperdicia memoria por todos lados, lo calula 3 veces (por empresas)
+	y a�adir algo que multiplique los puntos de rango, sin exp y demas son tan bajos todos que se buggea -> Se buggea porque los puntos de rango de
+	los nuevos son los mismos...
+
+22 octubre 2014
+	
+	En caso de que por razones desconocidas la gente comience a desconectarse es debido a la funcion que comprueba el PNG, habria que cambiarla.. Si te desconectas
+	y conectas desaparece tu nave, porque el server utiliza otro socket -> DONE!
+	
+26 octubre 2014
+	
+	Hay que borrar las cuentas de los usuarios de los maps (settings, accounts...) cada vez que se desconecten, para no recargar estos...
+		
+3 noviembre 2014
+
+	codigo de azure -> paquetes fuegos artificiales
+
+	 int mode = packetParser.getInt();
+                                if (this.Ship.Admin)
+                                {
+                                    if (mode == 1)
+                                    {
+                                        this.Send("0|L|32b7077746c28210b8345cebbe874700|111|" + this.Ship.X + "|" + this.Ship.Y + "|0|0");
+                                        this.Send("0|n|FWI|32b7077746c28210b8345cebbe874700");
+                                    }
+                                    else if (mode == 2)
+                                    {
+                                        this.Send("0|L|32b7077746c28210b8345cebbe874700|421|" + this.Ship.X + "|" + this.Ship.Y + "|0|0");
+                                        this.Send("0|n|FWI|32b7077746c28210b8345cebbe874700");
+                                    }
+                                    else if (mode == 3)
+                                    {
+                                        this.Send("0|L|32b7077746c28210b8345cebbe874700|533|" + this.Ship.X + "|" + this.Ship.Y + "|0|0");
+                                        this.Send("0|n|FWI|32b7077746c28210b8345cebbe874700");
+                                    }
+                                }
+20 diciembre 2014
+	
+	me veia en la obligaci�n de volver a escribir algo. La funci�n que salva los datos de los jugadores, concretamente la posici�n falla si se hace logout
+	mientras el usuario se esta moviendo 
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+1 marzo 2015
+
+	Vuelvo con el desarrollo desde 0. TODO:
+	
+		- En el movementHelper cambiar la velocidad (ahora esta solo la de la nave, sin contar motores)
+		- Arreglar los timeOut - HECHO
+		- Cuando el jugador se desconecta (timeOut) comprobar si le estan atacando, etc...
+		- Mandar todos los objectos a null
+		
+		
+		
+		
+		
+		
+		
+		
+----------------------------------
+Funcion util
+private void drawRange(Socket socket, short mapId, double positionX, double positionY) {
+			
+			double range = 500;
+			double x = Math.sin(Math.toRadians(45)) * range;
+			Random r = new Random();
+			int i = r.nextInt(Integer.MAX_VALUE);
+			String packet = "0|I|" + (i++) + "|X: " + (positionX + x) + " Y: " + (positionY + x) + "|1||||||0||" + (positionX + x) + "|" + (positionY + x)  + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX + range) + " Y: " + (positionY) + "|1||||||0||" + (positionX + range) + "|" + (positionY) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX) + " Y: " + (positionY + range) + "|1||||||0||" + (positionX) + "|" + (positionY + range) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX - x) + " Y: " + (positionY - x) + "|1||||||0||" + (positionX - x) + "|" + (positionY - x) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX - x) + " Y: " + (positionY + x) + "|1||||||0||" + (positionX - x) + "|" + (positionY + x) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX + x) + " Y: " + (positionY - x) + "|1||||||0||" + (positionX + x) + "|" + (positionY - x) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX - range) + " Y: " + (positionY) + "|1||||||0||" + (positionX - range) + "|" + (positionY) + "|" + mapId;
+			packet);
+			
+			packet = "0|I|" + (i++) + "|X: " + (positionX) + " Y: " + (positionY - range) + "|1||||||0||" + (positionX) + "|" + (positionY - range) + "|" + mapId;
+			packet);
+		}
+		
+
+
+		//Send log message packet
+		"0|LM|ST|EP|" + exp + "|" + user.user.experience + "|" + user.user.level);
+		"0|LM|ST|HON|" + hon + "|" + user.user.honor);
+		"0|LM|ST|CRE|" + cred + "|" + user.user.credits);
+		"0|LM|ST|URI|" + uri + "|" + user.user.uridium);
+		sendPacet(socket, "0|A|LUP|" + user.user.level + "|" + Tools.getNextLevelExp(user.user.level + 1) );
+
+
+		//hero has got solace, send solace skill button
+		"0|SD|S|1");
+	
+		
+	
+		//hero has got diminsher, send diminisher skill button
+		"0|SD|S|2");
+	
+	
+	
+		//hero has got sentinel, send sentinel skill button
+		"0|SD|S|3");
+	
+		
+	
+		//hero has got spectrum, send spectrum skill button
+		"0|SD|S|4");
+	
+		
+	
+		//hero has got venom, send venom skill button
+		"0|SD|S|5");
+	
+		
+	
+		//hero has got lightning, send lightning skill button
+		"0|SD|S|6");
+	
+		0|PET|S|1000|10|0|8000|50000|50000|1000|1000|50000|50000|20|testPet
+
+		0|PET|I|0|0|1
+		
+		0|g| .... investigar -> vender materias
+		
+		
+		
+		29 de marzo
+		
+		Cuidado con los getPlayer(), por ahora solo uso llamadas directas al mapa en el login o actualizando el equipamiento desde webPacket
+		y tengo que ver cuando actualizar los datos del mapa con el valor del connectionManager
+		
+		
+		
+	}
