@@ -3,10 +3,10 @@ package com.darkorbit.objects;
 public class Ship {
 	private short shipID;
 	private int shipHealth, shipShield, shieldAbsorb, shipSpeed, batteries, rockets, maxCargo, minDamage, maxDamage, experience, honor, credits, uridium;
-	private String lootID;
+	private String lootID, name;
 	
 	public Ship(short shipID, int shipHealth, int shipShield, int shieldAbsorb, int shipSpeed, int batteries, int rockets, int maxCargo, 
-	int minDamage, int maxDamage, int experience, int honor, int credits, int uridium, String lootID) {
+	int minDamage, int maxDamage, int experience, int honor, int credits, int uridium, String lootID, String name) {
 		
 		this.shipID = shipID;
 		this.shipHealth = shipHealth;
@@ -23,6 +23,7 @@ public class Ship {
 		this.credits = credits;
 		this.uridium = uridium;
 		this.lootID = lootID;
+		this.name = name;
 	}
 	
 	/* get methods */
@@ -30,6 +31,8 @@ public class Ship {
 		public short getShipID() {
 			return shipID;
 		}
+		
+		public String getName() { return name; }
 	
 		public int getShipHealth() {
 			return shipHealth;

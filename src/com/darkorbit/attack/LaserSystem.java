@@ -36,7 +36,7 @@ public class LaserSystem extends AttackController {
 			//el target es un NPC
 		}
 		
-		if((target != null) && (target.getHealth() > 0) && !(stopAttack) && (target.getMapID() == player.getMapID())) {
+		if((target != null) && (target.getHealth() > 0) && !(stopAttack) && (target.getMapID() == player.getMapID()) && !target.isInSafeZone()) {
 			if(player.isInRange(target)) {
 				//Comienza el ataque!
 				int damage;
@@ -115,10 +115,7 @@ public class LaserSystem extends AttackController {
 					 * Compruebo si el escudo actual es menor o igual que el daño que se le va a causar y lo pongo a 0
 					 * por tanto el daño pasa a ser del 100% a la vida ^^ 
 					 */
-					if(target.isInSafeZone()) {
-						sendPacket(targetSocket, "0|A|STM|peacearea");
-						sendPacket(playerSocket, "0|A|STM|peacearea");
-					} else if(!target.isInmune()) {
+					if(!target.isInmune()) {
 						// si el target no ha usado un ish
 						int damageChecker = (int)(damage * target.activeConfig().getAbsorption() / 100);
 						
@@ -176,6 +173,10 @@ public class LaserSystem extends AttackController {
 					Global.sendPacket(playerSocket, "0|A|STM|no_lasers_on_board");
 					player.isAttacking(false);
 				}
+			} else if(target.isInSafeZone()) {
+				sendPacket(targetSocket, "0|A|STM|peacearea");
+				sendPacket(playerSocket, "0|A|STM|peacearea");
+				
 			} else {
 				Global.sendPacket(playerSocket, "0|A|STM|outofrange");
 			}

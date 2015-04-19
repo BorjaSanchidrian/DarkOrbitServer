@@ -217,7 +217,8 @@ public class QueryManager extends MySQLManager {
 						result.getInt("honor"),
 						result.getInt("credits"),
 						result.getInt("uridium"),
-						result.getString("type")
+						result.getString("type"),
+						result.getString("Name")
 						);
 				
 				GameManager.addShip(ship);
@@ -756,7 +757,10 @@ public class QueryManager extends MySQLManager {
 			
 			while(result.next()) {
 				//Crea un Mapa en el Mapa xD
-				GameManager.addMap(new GameMap(result.getShort("id"), result.getString("NPCS")));
+				GameManager.addMap(new GameMap(
+						result.getShort("id"), 
+						new Vector(Double.parseDouble(result.getString("Limits").split("x")[0]), Double.parseDouble(result.getString("Limits").split("x")[1])), 
+						result.getString("NPCS")));
 			}
 			
 		} catch(Exception e) {

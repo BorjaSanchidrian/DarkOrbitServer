@@ -10,7 +10,7 @@ import com.darkorbit.objects.Player;
 import com.darkorbit.objects.Portal;
 import com.darkorbit.utils.Vector;
 
-public class MovementSystem extends Global implements Runnable {
+public class PlayerMovement extends Global implements Runnable {
 	private final double vtRel = 0.84412; //Relacion velocidad juego original
 	
 	private Vector destination, oldPosition, direction;
@@ -21,7 +21,7 @@ public class MovementSystem extends Global implements Runnable {
 	private Thread thread;
 	private Socket userSocket;
 	
-	public MovementSystem(int playerID) {
+	public PlayerMovement(int playerID) {
 		this.player = GameManager.getConnectionManager(playerID).player();
 		this.userSocket = GameManager.getConnectionManager(playerID).getSocket();
 		/*
