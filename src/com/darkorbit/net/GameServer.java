@@ -29,6 +29,7 @@ public class GameServer implements Runnable {
 			 */
 			int nShips = QueryManager.loadShips();
 			Console.out(nShips + " Ships loaded!");
+			//QueryManager.loadMaps();
 			QueryManager.loadPortals();
 			
 			Console.out("Waiting connections...");

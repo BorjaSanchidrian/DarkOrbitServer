@@ -5,6 +5,7 @@ import java.util.TreeMap;
 
 import com.darkorbit.chat.ChatManager;
 import com.darkorbit.objects.GameMap;
+import com.darkorbit.objects.Npc;
 import com.darkorbit.objects.Player;
 import com.darkorbit.objects.Portal;
 import com.darkorbit.objects.Ship;
@@ -109,5 +110,25 @@ public class GameManager {
 		
 		public static void addObject(int itemID, String lootID) {
 			objectsBought.put(itemID, lootID);
+		}
+
+	/* Game Npcs */
+		public static Map<Long, Npc> gameNpcs = new TreeMap<>();
+		
+		public static Npc getNpc(long npcID) {
+			return gameNpcs.get(npcID);
+		}
+		
+		public static void addNpc(Npc npc) {
+			gameNpcs.put(npc.getID(), npc);
+		}
+		
+		public static void updateNpc(Npc npc) {
+			if(gameNpcs.containsKey(npc.getID())) {
+				gameNpcs.remove(npc.getID());
+				addNpc(npc);
+			} else {
+				addNpc(npc);
+			}
 		}
 }

@@ -4,7 +4,7 @@ import java.net.Socket;
 import java.util.List;
 
 import com.darkorbit.attack.LaserSystem;
-import com.darkorbit.movement.MovementSystem;
+import com.darkorbit.movement.PlayerMovement;
 import com.darkorbit.mysql.QueryManager;
 import com.darkorbit.net.GameManager;
 import com.darkorbit.net.Global;
@@ -28,7 +28,7 @@ public class Player {
 	
 	private Settings playerSettings;
 	private Ship playerShip;
-	private MovementSystem movementSystem;
+	private PlayerMovement movementSystem;
 	private LaserSystem laserSystem;
 	private Ammunition ammo;
 	private Rockets rockets;
@@ -132,7 +132,7 @@ public class Player {
 		
 		public boolean isMoving() { return moving; }
 		
-		public MovementSystem movement() { return movementSystem; }
+		public PlayerMovement movement() { return movementSystem; }
 		
 		public int getHealth() { return health; }
 		
@@ -276,7 +276,7 @@ public class Player {
 			 * Porque el constructor del movementHelper necesita que el usuario este online en el connectionManager
 			 * asi que hago un metodo para desde el connectionManager iniciarlo cuando quiera...
 			 */
-			movementSystem = new MovementSystem(playerID);
+			movementSystem = new PlayerMovement(playerID);
 			laserSystem = new LaserSystem(playerID);
 		}
 		

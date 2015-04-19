@@ -35,9 +35,6 @@
 		0|A|BS|100 -> potenciador exp 100%
 		0|A|BS|0/0/0/0/0/0/0/0/0/0 -> cada uno un pote
 		
-		0|C|4|70||||8900|2800|
-		0|C|objectID(?)|shipId||||x|y -> Spawmea esa nave
-		
 		//Carga la municion -> 0|B|x1|x2|x3|x4|sab|rsb
         0|B|" + user.x1Ammo + "|" + user.x2Ammo + "|" + user.x3Ammo + "|" + user.x4Ammo + "|0
         

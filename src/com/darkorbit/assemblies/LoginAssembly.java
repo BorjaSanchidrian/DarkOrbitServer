@@ -124,6 +124,7 @@ public class LoginAssembly extends Global {
 		loadHUD();
 		sendStations();
 		setPortals();
+		//GameManager.gameMaps.get(player.getMapID()).drawNpcs(userSocket);
 	}
 	
 	/* Login functions */
